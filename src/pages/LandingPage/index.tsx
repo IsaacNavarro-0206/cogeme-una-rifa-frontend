@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Users, Ticket } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const LandingPage: React.FC = () => {
   const getCurrentYear = (): number => {
@@ -49,13 +50,17 @@ const LandingPage: React.FC = () => {
       </div>
 
       <div className="flex gap-4 flex-col sm:flex-row justify-center w-full">
-        <Button className="bg-white text-purple-700 hover:bg-purple-50 font-medium rounded-md p-2 sm:w-full md:w-40">
-          Ingresar
-        </Button>
+        <Link to="/login">
+          <Button className="bg-white text-purple-700 hover:bg-purple-50 font-medium rounded-md p-2 sm:w-full md:w-40">
+            Ingresar
+          </Button>
+        </Link>
 
-        <Button className="bg-purple-500 text-white hover:bg-purple-700 font-medium rounded-md p-2 sm:w-full md:w-40">
-          Crear cuenta
-        </Button>
+        <Link to="/signup">
+          <Button className="bg-purple-500 text-white hover:bg-purple-700 font-medium rounded-md p-2 sm:w-full md:w-40">
+            Crear cuenta
+          </Button>
+        </Link>
       </div>
 
       <footer>
