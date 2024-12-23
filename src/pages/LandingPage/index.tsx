@@ -8,7 +8,7 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-400 via-purple-500 to-purple-700 flex flex-col justify-center items-center p-4 space-y-16">
+    <div className="w-full bg-gradient-to-b from-orange-400 via-purple-500 to-purple-700 flex flex-col justify-center items-center p-4 space-y-16">
       <h1 className="text-white text-4xl md:text-6xl font-bold">
         Cógeme una rifa
       </h1>
