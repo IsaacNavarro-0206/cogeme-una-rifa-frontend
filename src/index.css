@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 8px; /* Ancho de la barra de desplazamiento */
 }
 
 /* parte por donde se mueve el thumb */
@@ -14,7 +14,7 @@
 
 /* la parte que se mueve */
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4caf50;
+  background-color: #db2777;
   border-radius: 10px;
   border: 2px solid #fff;
 }

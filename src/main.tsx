@@ -4,11 +4,14 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
 import Layout from "./Layout";
+import { RaffleProvider } from "./context/raffles";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Layout>
-      <RouterProvider router={router} />
-    </Layout>
+    <RaffleProvider>
+      <Layout>
+        <RouterProvider router={router} />
+      </Layout>
+    </RaffleProvider>
   </StrictMode>
 );

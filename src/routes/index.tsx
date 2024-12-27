@@ -4,6 +4,8 @@ import LoginPage from "@/pages/Login";
 import SignupPage from "@/pages/Signup";
 import CreateRafflePage from "@/pages/CreateRaffle";
 import EditRafflePage from "@/pages/EditRaffle";
+import MyRaffles from "@/pages/MyRaffles";
+import MyRaffle from "@/pages/MyRaffle";
 
 export const router = createBrowserRouter([
   {
@@ -25,5 +27,13 @@ export const router = createBrowserRouter([
   {
     path: "/edit-raffle/:id",
     element: <EditRafflePage />,
+  },
+  {
+    path: "/my-raffles/",
+    element: <MyRaffles />,
+  },
+  {
+    path: "/my-raffle/:id",
+    element: <MyRaffle />,
   },
 ]);
