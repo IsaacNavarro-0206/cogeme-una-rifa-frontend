@@ -5,13 +5,18 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes";
 import Layout from "./Layout";
 import { RaffleProvider } from "./context/raffles";
+import { AuthProvider } from "./context/AuthProvider";
+import { Toaster } from "./components/ui/toaster";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RaffleProvider>
-      <Layout>
-        <RouterProvider router={router} />
-      </Layout>
-    </RaffleProvider>
+    <AuthProvider>
+      <RaffleProvider>
+        <Layout>
+          <RouterProvider router={router} />
+          <Toaster />
+        </Layout>
+      </RaffleProvider>
+    </AuthProvider>
   </StrictMode>
 );

@@ -2,13 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Mail, Lock, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import FacebookGoogleButton from "../FacebookGoogleButton";
 import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { Login } from "@/service/auth";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const schema = yup.object().shape({
   email: yup
@@ -27,6 +30,10 @@ interface LoginDataForm {
 }
 
 const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -36,8 +43,30 @@ const LoginForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: LoginDataForm) => {
-    console.log(data);
+  const onSubmit = async (data: LoginDataForm) => {
+    try {
+      setIsLoading(true);
+
+      const obj = { correoElectronico: data.email, contraseña: data.password };
+      const res = await Login(obj);
+
+      console.log(res);
+
+      if (res.status === 201) {
+        localStorage.setItem("access_token", res.data.access_token);
+        navigate("/my-raffles");
+      } else {
+        toast({
+          title: "Error",
+          description: res.data.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -93,7 +122,11 @@ const LoginForm = () => {
           </div>
 
           <Button className="bg-pink-600 hover:bg-pink-700 text-white w-full">
-            Ingresar
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              "Ingresar"
+            )}
           </Button>
         </form>
 

@@ -2,13 +2,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Mail, Lock, User, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Mail, Lock, User, Phone, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import FacebookGoogleButton from "../FacebookGoogleButton";
 import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { Signup } from "@/service/auth";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nombre es requerido"),
@@ -40,6 +43,10 @@ interface SignupDataForm {
 }
 
 const SignupForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -49,8 +56,36 @@ const SignupForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: SignupDataForm) => {
-    console.log(data);
+  const onSubmit = async (data: SignupDataForm) => {
+    try {
+      setIsLoading(true);
+
+      const obj = {
+        nombre: data.name,
+        correoElectronico: data.email,
+        contraseña: data.password,
+        telefono: data.phone,
+      };
+
+      await Signup(obj);
+
+      toast({
+        title: "¡Registro exitoso!",
+        description: "Tu cuenta ha sido creada correctamente",
+      });
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        title: "Error",
+        description: "No se pudo crear la cuenta. Por favor intenta nuevamente",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -191,7 +226,11 @@ const SignupForm = () => {
           </div>
 
           <Button className="bg-pink-600 hover:bg-pink-700 text-white w-full">
-            Registrarse
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              "Registrarse"
+            )}
           </Button>
         </form>
 
