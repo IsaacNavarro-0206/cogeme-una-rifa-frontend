@@ -1,15 +1,16 @@
 interface RaffleDataForm {
+  lottery: string;
   prize: string;
   maxNumber: number;
-  drawDate: Date;
+  drawDate: string;
 }
 
 interface Raffle {
   id: number;
-  responsible: string;
-  drawDate: string;
-  lottery: string;
-  prize: string;
+  responsable: string;
+  fechaRifa: string;
+  loteria: string;
+  premio: string;
 }
 
 interface RequestNumber {

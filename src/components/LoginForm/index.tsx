@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Mail, Lock, Loader2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FacebookGoogleButton from "../FacebookGoogleButton";
 import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { Login } from "@/service/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 const schema = yup.object().shape({
   email: yup
@@ -31,7 +32,7 @@ interface LoginDataForm {
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { redirectLogin } = useAuth();
   const { toast } = useToast();
 
   const {
@@ -53,8 +54,12 @@ const LoginForm = () => {
       console.log(res);
 
       if (res.status === 201) {
-        localStorage.setItem("access_token", res.data.access_token);
-        navigate("/my-raffles");
+        redirectLogin(res.data.access_token);
+
+        toast({
+          title: "¡Bienvenido!",
+          description: "Has iniciado sesión correctamente",
+        });
       } else {
         toast({
           title: "Error",

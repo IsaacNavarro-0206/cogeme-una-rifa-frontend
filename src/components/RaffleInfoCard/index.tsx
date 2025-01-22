@@ -1,13 +1,10 @@
-import { Calendar, Gift, Ticket, User } from "lucide-react";
+import { Calendar, Gift, Ticket } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { useRaffles } from "@/hooks/useRaffle";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const RaffleInfoCard = () => {
-  const { raffles } = useRaffles();
-  const { id } = useParams();
-
-  const raffle = raffles.find((raffle) => raffle.id === Number(id));
+  const { state } = useLocation();
+  const { raffle } = state;
 
   return (
     <div className="max-w-2xl space-y-6 w-11/12">
@@ -20,18 +17,10 @@ const RaffleInfoCard = () => {
 
         <CardContent className="space-y-2">
           <div className="flex items-center gap-2 text-gray-600">
-            <User className="w-5 h-5" />
-
-            <span className="text-sm">
-              <strong>Responsable:</strong> {raffle?.responsible}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-gray-600">
             <Calendar className="w-5 h-5" />
 
             <span className="text-sm">
-              <strong>Fecha de juego:</strong> {raffle?.drawDate}
+              <strong>Fecha de juego:</strong> {raffle?.fechaRifa}
             </span>
           </div>
 
@@ -39,7 +28,7 @@ const RaffleInfoCard = () => {
             <Ticket className="w-5 h-5" />
 
             <span className="text-sm">
-              <strong>Lotería:</strong> {raffle?.lottery}
+              <strong>Lotería:</strong> {raffle?.loteria}
             </span>
           </div>
 
@@ -47,7 +36,7 @@ const RaffleInfoCard = () => {
             <Gift className="w-5 h-5" />
 
             <span className="text-sm">
-              <strong>Premio:</strong> {raffle?.prize}
+              <strong>Premio:</strong> {raffle?.premio}
             </span>
           </div>
         </CardContent>

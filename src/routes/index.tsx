@@ -6,6 +6,7 @@ import CreateRafflePage from "@/pages/CreateRaffle";
 import EditRafflePage from "@/pages/EditRaffle";
 import MyRaffles from "@/pages/MyRaffles";
 import MyRaffle from "@/pages/MyRaffle";
+import { ProtectedRoute } from "@/context/AuthProvider";
 
 export const router = createBrowserRouter([
   {
@@ -22,18 +23,34 @@ export const router = createBrowserRouter([
   },
   {
     path: "/create-raffle",
-    element: <CreateRafflePage />,
+    element: (
+      <ProtectedRoute>
+        <CreateRafflePage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/edit-raffle/:id",
-    element: <EditRafflePage />,
+    element: (
+      <ProtectedRoute>
+        <EditRafflePage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/my-raffles/",
-    element: <MyRaffles />,
+    element: (
+      <ProtectedRoute>
+        <MyRaffles />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/my-raffle/:id",
-    element: <MyRaffle />,
+    element: (
+      <ProtectedRoute>
+        <MyRaffle />
+      </ProtectedRoute>
+    ),
   },
 ]);

@@ -1,12 +1,33 @@
 import RaffleCard from "@/components/RaffleCard";
 import { Button } from "@/components/ui/button";
-import { useRaffles } from "@/hooks/useRaffle";
-import { Ticket } from "lucide-react";
-import { useState } from "react";
+import { GetRaffles } from "@/service/raffle";
+import { Loader2, Ticket } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const MyRaffles = () => {
-  const { raffles } = useRaffles();
+  const [raffles, setRaffles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const getRaffles = async () => {
+      try {
+        setIsLoading(true);
+
+        const res = await GetRaffles();
+
+        console.log(res);
+
+        setRaffles(res.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getRaffles();
+  }, []);
 
   // Estado para la página actual
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +40,8 @@ const MyRaffles = () => {
 
   // Obtiene las rifas de la página actual
   const currentRaffles = raffles.slice(indexOfFirstRaffle, indexOfLastRaffle);
+
+  console.log(currentRaffles);
 
   // Cambia de página
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -49,7 +72,13 @@ const MyRaffles = () => {
       </div>
 
       <div className="custom-scrollbar overflow-y-auto max-h-screen lg:max-h-[520px] p-3">
-        <RaffleCard raffles={currentRaffles} />
+        {isLoading ? (
+          <div className="flex justify-center items-center h-[400px]">
+            <Loader2 className="h-[200px] w-[200px] animate-spin text-pink-600" />
+          </div>
+        ) : (
+          <RaffleCard raffles={currentRaffles} />
+        )}
       </div>
 
       <div className="flex justify-center mt-4 max-h-16 overflow-x-auto custom-scrollbar">

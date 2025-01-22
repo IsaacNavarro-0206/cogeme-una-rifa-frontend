@@ -6,10 +6,23 @@ import {
   PlusCircle,
   Ticket,
   Trash2,
-  User,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { DeleteRaffle } from "@/service/raffle";
+import { useEffect, useState } from "react";
 
 interface RaffleCardProps {
   raffles: Raffle[];
@@ -18,7 +31,73 @@ interface RaffleCardProps {
 const RaffleCard: React.FC<RaffleCardProps> = ({
   raffles,
 }: RaffleCardProps) => {
-  return raffles.length === 0 ? (
+  const { toast } = useToast();
+  const [raffleToDelete, setRaffleToDelete] = useState<number>(0);
+  const [raffleList, setRaffleList] = useState<Raffle[]>([]);
+
+  useEffect(() => {
+    setRaffleList(raffles);
+  }, [raffles]);
+
+  const deleteRaffle = async () => {
+    // Store current state for potential rollback
+    const previousRaffles = [...raffles];
+
+    try {
+      await DeleteRaffle(raffleToDelete);
+
+      toast({
+        title: "Éxito",
+        description: "Rifa eliminada correctamente",
+      });
+
+      setRaffleList(raffles.filter((raffle) => raffle.id !== raffleToDelete));
+    } catch (error) {
+      console.log(error);
+
+      // Rollback on error
+      setRaffleList(previousRaffles);
+
+      toast({
+        title: "Error",
+        content: "Error al eliminar la rifa",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const alertDialogDelete = (id: number) => (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="destructive"
+          size="icon"
+          onClick={() => setRaffleToDelete(id)}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </AlertDialogTrigger>
+
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+
+          <AlertDialogDescription>
+            Esta acción no se puede deshacer. Se eliminará la rifa
+            permanentemente.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+
+          <AlertDialogAction onClick={deleteRaffle}>Eliminar</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+
+  return raffleList.length === 0 ? (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
       <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <Ticket className="w-8 h-8 text-pink-600" />
@@ -42,7 +121,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
     </div>
   ) : (
     <div className="space-y-4">
-      {raffles.map((raffle) => (
+      {raffleList.map((raffle) => (
         <div
           key={raffle.id}
           className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all hover:shadow-md"
@@ -51,21 +130,11 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
             <div className="space-y-3">
               <div className="flex items-center">
                 <div className="w-5 h-5 mt-1 mr-2 text-gray-400">
-                  <User className="w-5 h-5" />
-                </div>
-
-                <p className="text-sm text-gray-500">
-                  Responsable: {raffle.responsible}
-                </p>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-5 h-5 mt-1 mr-2 text-gray-400">
                   <CalendarDays className="w-5 h-5" />
                 </div>
 
                 <p className="text-sm text-gray-500">
-                  Fecha de juego: {raffle.drawDate}
+                  Fecha de juego: {raffle.fechaRifa}
                 </p>
               </div>
 
@@ -76,7 +145,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
 
                 <div>
                   <p className="text-sm text-gray-500">
-                    Lotería a jugar: {raffle.lottery}
+                    Lotería a jugar: {raffle.loteria}
                   </p>
                 </div>
               </div>
@@ -88,26 +157,26 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
 
                 <div>
                   <p className="text-sm text-gray-500">
-                    Premio: {raffle.prize}
+                    Premio: {raffle.premio}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="flex items-center justify-end gap-2 md:border-l md:pl-6">
-              <Button className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
-                <Edit2 className="w-4 h-4" />
-              </Button>
+              <Link to={`/edit-raffle/${raffle.id}`} state={{ raffle }}>
+                <Button className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
+                  <Edit2 className="w-4 h-4" />
+                </Button>
+              </Link>
 
-              <Link to={`/my-raffle/${raffle.id}`}>
+              <Link to={`/my-raffle/${raffle.id}`} state={{ raffle }}>
                 <Button className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors">
                   <Eye className="w-4 h-4" />
                 </Button>
               </Link>
 
-              <Button className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors">
-                <Trash2 className="w-4 h-4" />
-              </Button>
+              {alertDialogDelete(raffle.id)}
             </div>
           </div>
         </div>
