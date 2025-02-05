@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-// import Logo from "../../assets/logo.svg";
+import { Link, NavLink } from "react-router-dom";
+import Logo from "../../assets/logo.svg";
 import { Button } from "../ui/button";
 import { LogOut, Menu } from "lucide-react";
 import {
@@ -51,7 +51,15 @@ const NavBar = () => {
   return (
     <nav className="bg-white shadow-sm z-50 w-full">
       <div className="flex justify-between items-center h-16">
-        <div>{/* <Logo /> */}</div>
+        <div className="">
+          <Link to="/">
+            <img
+              src={Logo}
+              className="h-20 w-32"
+              alt="Logo - Cogeme un número"
+            />
+          </Link>
+        </div>
 
         <div className="hidden lg:flex items-center justify-evenly w-1/4">
           <NavButton href="/my-raffles">Mis rifas</NavButton>
