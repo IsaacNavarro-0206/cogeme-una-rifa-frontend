@@ -1,10 +1,18 @@
 import { Check, Hash, Phone, User, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { usePagination } from "@/hooks/usePagination";
+import PaginationControls from "../PaginationControls";
 
 const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
+  const { currentItems, currentPage, totalPages, nextPage, prevPage } =
+    usePagination({
+      data: requests,
+      itemsPerPage: 5,
+    });
+
   return (
-    <Card className="my-5 max-w-2xl w-11/12">
+    <Card className="my-5 max-w-2xl w-11/12 pb-2.5">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           Solicitudes de números
@@ -12,7 +20,7 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
       </CardHeader>
 
       <CardContent className="space-y-4 custom-scrollbar overflow-y-auto max-h-screen lg:max-h-[350px]">
-        {requests.map((request) => (
+        {currentItems.map((request) => (
           <div
             className="flex flex-col md:flex-row justify-between gap-5 md:gap-1 border rounded-lg shadow-sm border-gray-200 p-4 overflow-hidden"
             key={request.id}
@@ -83,6 +91,14 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
           </div>
         )}
       </CardContent>
+
+      {/* Controles de paginación */}
+      <PaginationControls
+        prevPage={prevPage}
+        currentPage={currentPage}
+        nextPage={nextPage}
+        totalPages={totalPages}
+      />
     </Card>
   );
 };

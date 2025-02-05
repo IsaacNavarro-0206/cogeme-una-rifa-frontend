@@ -1,5 +1,6 @@
+import PaginationControls from "@/components/PaginationControls";
 import RaffleCard from "@/components/RaffleCard";
-import { Button } from "@/components/ui/button";
+import { usePagination } from "@/hooks/usePagination";
 import { GetRaffles } from "@/service/raffle";
 import { Loader2, Ticket } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -9,14 +10,18 @@ const MyRaffles = () => {
   const [raffles, setRaffles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { currentItems, currentPage, totalPages, nextPage, prevPage } =
+    usePagination({
+      data: raffles,
+      itemsPerPage: 5,
+    });
+
   useEffect(() => {
     const getRaffles = async () => {
       try {
         setIsLoading(true);
 
         const res = await GetRaffles();
-
-        console.log(res);
 
         setRaffles(res.data);
       } catch (error) {
@@ -28,34 +33,6 @@ const MyRaffles = () => {
 
     getRaffles();
   }, []);
-
-  // Estado para la página actual
-  const [currentPage, setCurrentPage] = useState(1);
-  // Número de rifas por página
-  const rafflesPerPage = 5;
-
-  // Calcula el índice de la primera y última rifa de la página actual
-  const indexOfLastRaffle = currentPage * rafflesPerPage;
-  const indexOfFirstRaffle = indexOfLastRaffle - rafflesPerPage;
-
-  // Obtiene las rifas de la página actual
-  const currentRaffles = raffles.slice(indexOfFirstRaffle, indexOfLastRaffle);
-
-  console.log(currentRaffles);
-
-  // Cambia de página
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  // Generador para los números de página
-  function* pageNumbersGenerator(totalPages: number) {
-    for (let i = 1; i <= totalPages; i++) {
-      yield i;
-    }
-  }
-
-  // Calcula el número total de páginas
-  const totalPages = Math.ceil(raffles.length / rafflesPerPage);
-  const pageNumbers = Array.from(pageNumbersGenerator(totalPages));
 
   return (
     <div className="mb-5 max-w-5xl w-11/12">
@@ -77,26 +54,17 @@ const MyRaffles = () => {
             <Loader2 className="h-[200px] w-[200px] animate-spin text-pink-600" />
           </div>
         ) : (
-          <RaffleCard raffles={currentRaffles} />
+          <RaffleCard raffles={currentItems} />
         )}
       </div>
 
-      <div className="flex justify-center mt-4 max-h-16 overflow-x-auto custom-scrollbar">
-        {pageNumbers.map((number) => (
-          <Button
-            key={number}
-            variant="ghost"
-            onClick={() => paginate(number)}
-            className={`px-4 py-2 mx-1 rounded-lg ${
-              currentPage === number
-                ? "bg-pink-600 text-white/90 hover:text-white hover:bg-pink-700"
-                : "text-gray-700"
-            }`}
-          >
-            {number}
-          </Button>
-        ))}
-      </div>
+      {/* Controles de paginación */}
+      <PaginationControls
+        prevPage={prevPage}
+        currentPage={currentPage}
+        nextPage={nextPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 };
