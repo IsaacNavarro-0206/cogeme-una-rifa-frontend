@@ -20,7 +20,7 @@ export function CreateRaffle(data: CreateRaffleType) {
   });
 }
 
-export function UpdateRaffle(data: UpdateRaffleType, id: string) {
+export function UpdateRaffle(data: UpdateRaffleType, id: string | undefined) {
   return axios({
     method: "PATCH",
     url: `/raffle/${id}`,

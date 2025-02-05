@@ -25,10 +25,6 @@ const EditRaffleForm = () => {
         numeroMaximo: data.maxNumber,
       };
 
-      console.log("Request object:", obj);
-      console.log("Creation date type:", typeof obj.fechaCreacion);
-      console.log("Draw date type:", typeof obj.fechaRifa);
-
       const res = await UpdateRaffle(obj, id);
 
       toast({

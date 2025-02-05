@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useContext } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -18,16 +18,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return !!token;
   });
 
+  const navigate = useNavigate();
+
   const logout = () => {
     setIsAuthenticated(false);
     localStorage.setItem("access_token", "");
-    document.location.replace("/login");
+    navigate("/login");
   };
 
   const redirectLogin = (token: string) => {
+    if (!token) return;
+
     localStorage.setItem("access_token", token);
     setIsAuthenticated(true);
-    document.location.replace("/my-raffles");
+    navigate("/my-raffles");
   };
 
   return (
