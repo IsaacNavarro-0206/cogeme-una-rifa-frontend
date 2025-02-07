@@ -40,7 +40,7 @@ function LogoutButton() {
   return (
     <Button
       variant="outline"
-      className="text-pink-600 border-pink-600 hover:bg-pink-50"
+      className="text-pink-600 border-pink-600 hover:bg-pink-50 w-full lg:w-auto"
       onClick={logout}
     >
       <LogOut className="w-4 h-4 mr-2" />
