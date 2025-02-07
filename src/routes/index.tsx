@@ -8,6 +8,7 @@ import EditRafflePage from "@/pages/EditRaffle";
 import MyRaffles from "@/pages/MyRaffles";
 import MyRaffle from "@/pages/MyRaffle";
 import { AuthProvider, ProtectedRoute } from "@/context/AuthProvider";
+import ProfilePage from "@/pages/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -66,15 +67,7 @@ export const router = createBrowserRouter([
         path: "profile/:id",
         element: (
           <ProtectedRoute>
-            <MyRaffle />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "edit-profile/:id",
-        element: (
-          <ProtectedRoute>
-            <MyRaffle />
+            <ProfilePage />
           </ProtectedRoute>
         ),
       },
