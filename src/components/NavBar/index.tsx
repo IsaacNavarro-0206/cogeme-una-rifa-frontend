@@ -14,15 +14,17 @@ import { getUserId } from "@/utils/auth";
 function NavButton({
   href,
   children,
+  className,
 }: {
   href: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <NavLink
       to={href}
       className={({ isActive }) =>
-        `text-gray-600 hover:text-pink-600 hover:border-b-2 hover:border-pink-600 transition-all py-5 ${
+        `text-gray-600 hover:text-pink-600 hover:border-b-2 hover:border-pink-600 transition-all py-5 ${className} ${
           isActive ? "border-b-2 border-pink-600 text-pink-600" : ""
         }`
       }
@@ -78,11 +80,18 @@ const NavBar = () => {
 
             <DropdownMenuContent className="w-56">
               <DropdownMenuItem>
-                <NavButton href="/my-raffles">Mis rifas</NavButton>
+                <NavButton href="/my-raffles" className="w-full text-center">
+                  Mis rifas
+                </NavButton>
               </DropdownMenuItem>
 
               <DropdownMenuItem>
-                <NavButton href={`/profile/${getUserId()}`}>Perfil</NavButton>
+                <NavButton
+                  href={`/profile/${getUserId()}`}
+                  className="w-full text-center"
+                >
+                  Perfil
+                </NavButton>
               </DropdownMenuItem>
 
               <DropdownMenuItem>
