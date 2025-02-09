@@ -4,6 +4,7 @@ import {
   Eye,
   Gift,
   PlusCircle,
+  Share2,
   Ticket,
   Trash2,
 } from "lucide-react";
@@ -18,11 +19,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { DeleteRaffle } from "@/service/raffle";
 import { useEffect, useState } from "react";
+import { getUserId } from "@/utils/auth";
 
 interface RaffleCardProps {
   raffles: Raffle[];
@@ -34,6 +36,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
   const { toast } = useToast();
   const [raffleToDelete, setRaffleToDelete] = useState<number>(0);
   const [raffleList, setRaffleList] = useState<Raffle[]>([]);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     setRaffleList(raffles);
@@ -96,6 +99,31 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
       </AlertDialogContent>
     </AlertDialog>
   );
+
+  const shareLinkRaffleSheet = (
+    raffleId: number,
+    userId: string | undefined
+  ) => {
+    const link = `${window.location.origin}/choose-number/${raffleId}/${userId}`;
+
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        toast({
+          title: "Enlace copiado",
+          description:
+            "El enlace para seleccionar número ha sido copiado al portapapeles.",
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description:
+            "No se pudo copiar el enlace. Por favor, inténtalo de nuevo.",
+          variant: "destructive",
+        });
+      });
+  };
 
   return raffleList.length === 0 ? (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
@@ -164,6 +192,15 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
             </div>
 
             <div className="flex items-center justify-end gap-2 md:border-l md:pl-6">
+              <Link to={pathname} state={{ raffle }}>
+                <Button
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 transition-colors"
+                  onClick={() => shareLinkRaffleSheet(raffle.id, getUserId())}
+                >
+                  <Share2 className="w-4 h-4" />
+                </Button>
+              </Link>
+
               <Link to={`/edit-raffle/${raffle.id}`} state={{ raffle }}>
                 <Button className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
                   <Edit2 className="w-4 h-4" />

@@ -1,9 +1,15 @@
 import NavBar from "@/components/NavBar";
-import { Outlet, useLocation } from "react-router-dom";
-
-const publicRoutes = ["/", "/login", "/signup"];
+import { Outlet, useLocation, useParams } from "react-router-dom";
 
 function Layout() {
+  const { raffleId, userId } = useParams();
+  const publicRoutes = [
+    "/",
+    "/login",
+    "/signup",
+    `/choose-number/${raffleId}/${userId}`,
+  ];
+
   const { pathname } = useLocation();
   const isPublicRoute = publicRoutes.includes(pathname);
 

@@ -48,7 +48,7 @@ export function GetRaffles() {
   });
 }
 
-export function GetRaffle(id: string) {
+export function GetRaffle(id: number) {
   return axios({
     method: "GET",
     url: `/raffle/${id}`,

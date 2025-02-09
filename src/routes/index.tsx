@@ -9,6 +9,7 @@ import MyRaffles from "@/pages/MyRaffles";
 import MyRaffle from "@/pages/MyRaffle";
 import { AuthProvider, ProtectedRoute } from "@/context/AuthProvider";
 import ProfilePage from "@/pages/Profile";
+import ChooseNumber from "@/pages/ChooseNumber";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupPage />,
+      },
+      {
+        path: "choose-number/:raffleId/:userId",
+        element: <ChooseNumber />,
       },
       {
         path: "create-raffle",

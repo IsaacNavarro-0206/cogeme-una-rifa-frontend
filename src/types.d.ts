@@ -7,7 +7,7 @@ interface RaffleDataForm {
 
 interface Raffle {
   id: number;
-  responsable: string;
+  numeroMaximo: number;
   fechaRifa: string;
   loteria: string;
   premio: string;

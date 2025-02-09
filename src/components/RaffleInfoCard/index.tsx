@@ -1,10 +1,19 @@
-import { Calendar, Gift, Ticket } from "lucide-react";
+import { Calendar, Gift, Ticket, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useLocation } from "react-router-dom";
 
-const RaffleInfoCard = () => {
+interface RaffleInfoCardProps {
+  raffle?: Raffle;
+  userName?: string;
+}
+
+const RaffleInfoCard: React.FC<RaffleInfoCardProps> = ({
+  raffle: propRaffle,
+  userName,
+}) => {
   const { state } = useLocation();
-  const { raffle } = state;
+  // Se intenta obtener la rifa del state si no se pasa por props.
+  const raffle = propRaffle || state?.raffle;
 
   return (
     <div className="max-w-2xl space-y-6 w-11/12">
@@ -16,6 +25,16 @@ const RaffleInfoCard = () => {
         </CardHeader>
 
         <CardContent className="space-y-2">
+          {userName && (
+            <div className="flex items-center gap-2 text-gray-600">
+              <User className="w-5 h-5" />
+
+              <span className="text-sm">
+                <strong>Responsable:</strong> {userName}
+              </span>
+            </div>
+          )}
+
           <div className="flex items-center gap-2 text-gray-600">
             <Calendar className="w-5 h-5" />
 

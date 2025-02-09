@@ -30,7 +30,7 @@ export function DeleteUser(id: number) {
   });
 }
 
-export function GetUser(id: string) {
+export function GetUser(id: number) {
   return axios({
     method: "GET",
     url: `/user/${id}`,
