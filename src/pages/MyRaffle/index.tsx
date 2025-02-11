@@ -1,18 +1,23 @@
 import RaffleInfoCard from "@/components/RaffleInfoCard";
 import RequestCard from "@/components/RequestCard";
-
-const requests: RequestNumber[] = [];
-
-for (let i = 1; i <= 13; i++) {
-  requests.push({
-    id: i,
-    numberRequested: i + 1,
-    name: `Pepito ${i}`,
-    contactNumber: `300${i}`,
-  });
-}
+import { GetChoosenNumbers } from "@/service/choosenNumber";
+import { useEffect, useState } from "react";
 
 const MyRaffle = () => {
+  const [requests, setRequests] = useState<RequestNumber[]>([]);
+
+  useEffect(() => {
+    const getRequests = async () => {
+      const res = await GetChoosenNumbers();
+
+      if (res.status === 200) {
+        setRequests(res.data);
+      }
+    };
+
+    getRequests();
+  }, []);
+
   return (
     <>
       <RaffleInfoCard />

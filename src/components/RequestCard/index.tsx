@@ -34,7 +34,7 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
                 <div className="flex flex-col">
                   <h3 className="text-sm text-gray-500">Número solicitado</h3>
 
-                  <p className="font-semibold">{request.numberRequested}</p>
+                  <p className="font-semibold">{request.numero}</p>
                 </div>
               </div>
 
@@ -46,7 +46,7 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
                 <div className="flex flex-col">
                   <h3 className="text-sm text-gray-500">Nombre</h3>
 
-                  <p className="font-semibold">{request.name}</p>
+                  <p className="font-semibold">{request.nombre}</p>
                 </div>
               </div>
 
@@ -58,7 +58,7 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
                 <div className="flex flex-col">
                   <h3 className="text-sm text-gray-500">Número de contacto</h3>
 
-                  <p className="font-semibold">{request.contactNumber}</p>
+                  <p className="font-semibold">{request.numeroDeContacto}</p>
                 </div>
               </div>
             </div>

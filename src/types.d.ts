@@ -15,7 +15,8 @@ interface Raffle {
 
 interface RequestNumber {
   id: number;
-  numberRequested: number;
-  name: string;
-  contactNumber: string;
+  numero: number;
+  nombre: string;
+  numeroDeContacto: string;
+  raffle: Raffle[];
 }
