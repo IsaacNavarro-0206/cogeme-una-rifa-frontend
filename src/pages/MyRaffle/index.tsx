@@ -20,6 +20,8 @@ const MyRaffle = () => {
 
   return (
     <>
+      <br />
+
       <RaffleInfoCard />
 
       <RequestCard requests={requests} />

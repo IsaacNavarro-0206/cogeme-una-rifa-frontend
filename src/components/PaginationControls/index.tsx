@@ -31,6 +31,7 @@ const PaginationControls = ({
       </Button>
 
       <Select
+        value={`${currentPage}`}
         onValueChange={(value) => {
           if (Number(value) > currentPage) {
             nextPage();

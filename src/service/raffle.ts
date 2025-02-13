@@ -16,6 +16,10 @@ export function CreateRaffle(data: CreateRaffleType) {
     url: "/raffle",
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
     validateStatus: null,
+
+    headers: {
+      Authorization: `bearer ${localStorage.getItem("access_token")}`,
+    },
     data,
   });
 }
@@ -26,6 +30,10 @@ export function UpdateRaffle(data: UpdateRaffleType, id: string | undefined) {
     url: `/raffle/${id}`,
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
     validateStatus: null,
+
+    headers: {
+      Authorization: `bearer ${localStorage.getItem("access_token")}`,
+    },
     data,
   });
 }
@@ -36,6 +44,10 @@ export function DeleteRaffle(id: number) {
     url: `/raffle/${id}`,
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
     validateStatus: null,
+
+    headers: {
+      Authorization: `bearer ${localStorage.getItem("access_token")}`,
+    },
   });
 }
 
@@ -45,6 +57,10 @@ export function GetRaffles() {
     url: "/raffle",
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
     validateStatus: null,
+
+    headers: {
+      Authorization: `bearer ${localStorage.getItem("access_token")}`,
+    },
   });
 }
 
@@ -54,5 +70,9 @@ export function GetRaffle(id: number) {
     url: `/raffle/${id}`,
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
     validateStatus: null,
+
+    headers: {
+      Authorization: `bearer ${localStorage.getItem("access_token")}`,
+    },
   });
 }

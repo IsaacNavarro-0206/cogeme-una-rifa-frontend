@@ -18,5 +18,5 @@ interface RequestNumber {
   numero: number;
   nombre: string;
   numeroDeContacto: string;
-  raffle: Raffle[];
+  estado: string;
 }

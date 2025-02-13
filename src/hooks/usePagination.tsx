@@ -26,12 +26,15 @@ export const usePagination = <T,>({
   // Controla el número de página actual
   const [currentPage, setCurrentPage] = useState(initialPage);
 
+  // Asegurar que es un arreglo
+  const safeData = Array.isArray(data) ? data : [];
+
   // Calcula los índices para la paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // Obtiene los elementos de la página actual
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = safeData.slice(indexOfFirstItem, indexOfLastItem);
 
   // Calcula el número total de páginas
   const totalPages = Math.ceil(data.length / itemsPerPage);

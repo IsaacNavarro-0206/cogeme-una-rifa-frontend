@@ -7,6 +7,10 @@ interface ChoosenNumberData {
   numeroDeContacto: string;
 }
 
+interface StatusData {
+  estado: string;
+}
+
 export function ChoosenNumbers(data: ChoosenNumberData) {
   return axios({
     method: "POST",
@@ -17,7 +21,7 @@ export function ChoosenNumbers(data: ChoosenNumberData) {
   });
 }
 
-export function UpdateStatusChoosenNumber(data: ChoosenNumberData, id: number) {
+export function UpdateStatusChoosenNumber(data: StatusData, id: number) {
   return axios({
     method: "PATCH",
     url: `/choosen-number/${id}`,
