@@ -20,3 +20,8 @@ interface RequestNumber {
   numeroDeContacto: string;
   estado: string;
 }
+
+interface ChoosenNumber {
+  estado: string;
+  numero: number;
+}

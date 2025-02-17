@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Loader2, Phone, User } from "lucide-react";
 import { Input } from "../ui/input";
-import { ChoosenNumbers } from "@/service/choosenNumber";
+import { ChoosenNumbers, GetChoosenNumbers } from "@/service/choosenNumber";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nombre es requerido"),
@@ -29,6 +29,7 @@ const RaffleSheet = ({
   raffleId: string | undefined;
 }) => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+  const [numbersStatus, setNumbersStatus] = useState<ChoosenNumber[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -41,11 +42,38 @@ const RaffleSheet = ({
     mode: "onChange",
   });
 
+  useEffect(() => {
+    const getNumbers = async () => {
+      try {
+        const res = await GetChoosenNumbers();
+
+        setNumbersStatus(res?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getNumbers();
+  }, []);
+
+  const handleBlockedNumber = (num: number) =>
+    numbersStatus.some(
+      (number) =>
+        num === number?.numero &&
+        (number?.estado === "pendiente" || number?.estado === "aceptado")
+    );
+
+  const handleColorButton = (index: number) => {
+    if (handleBlockedNumber(index + 1)) {
+      return "disabled:bg-red-500 disabled:opacity-80 text-white disabled:cursor-not-allowed";
+    } else {
+      return "bg-emerald-100 text-emerald-700 hover:bg-emerald-200";
+    }
+  };
+
   const onSubmit = async (data: raffleSheetDataForm) => {
     try {
       setIsLoading(true);
-
-      console.log("raffleId received:", raffleId, typeof raffleId);
 
       await Promise.all(
         selectedNumbers.map(async (selectedNumber: number) => {
@@ -56,7 +84,6 @@ const RaffleSheet = ({
             numeroDeContacto: data.phone,
           };
 
-          console.log("Sending object:", obj);
           return await ChoosenNumbers(obj);
         })
       );
@@ -69,7 +96,8 @@ const RaffleSheet = ({
 
       toast({
         title: "Error",
-        description: "No se pudo seleccionar el/los número(s). Por favor intenta nuevamente",
+        description:
+          "No se pudo seleccionar el/los número(s). Por favor intenta nuevamente",
         variant: "destructive",
       });
     } finally {
@@ -97,11 +125,12 @@ const RaffleSheet = ({
 
             return (
               <Button
+                disabled={handleBlockedNumber(index + 1)}
                 key={index}
                 className={`${
                   isSelected
                     ? "bg-blue-500 hover:bg-blue-600 text-white"
-                    : "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
+                    : handleColorButton(index)
                 } 
                    rounded-lg text-lg font-semibold flex items-center justify-center transition-all w-full h-auto sm:h-28`}
                 onClick={() => handleSelectedNumbers(index)}
