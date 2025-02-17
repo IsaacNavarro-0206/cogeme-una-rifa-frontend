@@ -70,9 +70,5 @@ export function GetRaffle(id: number) {
     url: `/raffle/${id}`,
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
     validateStatus: null,
-
-    headers: {
-      Authorization: `bearer ${localStorage.getItem("access_token")}`,
-    },
   });
 }
