@@ -44,9 +44,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const context = useContext(AuthContext);
   const location = useLocation();
+  const isAuthPath =
+    location.pathname === "/login" || location.pathname === "/signup";
 
-  if (!context?.isAuthenticated) {
+  // Si no está autenticado y no está en una ruta de auth, redirige a login
+  if (!context?.isAuthenticated && !isAuthPath) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Si está autenticado y está intentando acceder a rutas de auth, redirige a my-raffles
+  if (context?.isAuthenticated && isAuthPath) {
+    return <Navigate to="/my-raffles" replace />;
   }
 
   return children;

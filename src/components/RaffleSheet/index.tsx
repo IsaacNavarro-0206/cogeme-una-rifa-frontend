@@ -36,23 +36,24 @@ const RaffleSheet = ({
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver<raffleSheetDataForm>(schema),
     mode: "onChange",
   });
 
+  const getNumbers = async () => {
+    try {
+      const res = await GetChoosenNumbers();
+
+      setNumbersStatus(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const getNumbers = async () => {
-      try {
-        const res = await GetChoosenNumbers();
-
-        setNumbersStatus(res?.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     getNumbers();
   }, []);
 
@@ -64,7 +65,7 @@ const RaffleSheet = ({
     );
 
   const handleColorButton = (index: number) => {
-    if (handleBlockedNumber(index + 1)) {
+    if (handleBlockedNumber(index)) {
       return "disabled:bg-red-500 disabled:opacity-80 text-white disabled:cursor-not-allowed";
     } else {
       return "bg-emerald-100 text-emerald-700 hover:bg-emerald-200";
@@ -88,6 +89,9 @@ const RaffleSheet = ({
         })
       );
 
+      setSelectedNumbers([]);
+      getNumbers();
+
       toast({
         title: "Número(s) seleccionado(s)!",
       });
@@ -102,6 +106,7 @@ const RaffleSheet = ({
       });
     } finally {
       setIsLoading(false);
+      reset();
     }
   };
 
@@ -125,7 +130,7 @@ const RaffleSheet = ({
 
             return (
               <Button
-                disabled={handleBlockedNumber(index + 1)}
+                disabled={handleBlockedNumber(index)}
                 key={index}
                 className={`${
                   isSelected
