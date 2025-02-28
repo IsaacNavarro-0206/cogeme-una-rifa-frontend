@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/auth/slice";
 import { getUserId } from "@/utils/auth";
 
 function NavButton({
@@ -35,7 +35,7 @@ function NavButton({
 }
 
 function LogoutButton() {
-  const { logout } = useAuth();
+  const { logout } = useAuthStore();
 
   return (
     <Button

@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { Login } from "@/service/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/auth/slice";
 
 const schema = yup.object().shape({
   email: yup
@@ -32,7 +32,7 @@ interface LoginDataForm {
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { redirectLogin } = useAuth();
+  const { setAuth } = useAuthStore();
   const { toast } = useToast();
 
   const {
@@ -54,12 +54,13 @@ const LoginForm = () => {
       console.log(res);
 
       if (res.status === 201) {
-        redirectLogin(res.data.access_token);
+        setAuth(res.data.access_token);
 
         toast({
           title: "¡Bienvenido!",
           description: "Has iniciado sesión correctamente",
         });
+
       } else {
         toast({
           title: "Error",
