@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "./axiosConfig";
 
 interface UpdateUser {
   nombre: string;
@@ -8,25 +9,17 @@ interface UpdateUser {
 }
 
 export function UpdateUser(data: UpdateUser, id: string | undefined) {
-  return axios({
+  return axiosInstance({
     method: "PATCH",
     url: `/user/${id}`,
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
     data,
-
-    headers: {
-      Authorization: `bearer ${localStorage.getItem("access_token")}`,
-    },
   });
 }
 
 export function DeleteUser(id: number) {
-  return axios({
+  return axiosInstance({
     method: "DELETE",
     url: `/user/${id}`,
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
   });
 }
 

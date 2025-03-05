@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "./axiosConfig";
 
 type CreateRaffleType = {
   usuarioId: number;
@@ -11,56 +12,32 @@ type CreateRaffleType = {
 type UpdateRaffleType = Omit<CreateRaffleType, "usuarioId">;
 
 export function CreateRaffle(data: CreateRaffleType) {
-  return axios({
+  return axiosInstance({
     method: "POST",
     url: "/raffle",
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
-
-    headers: {
-      Authorization: `bearer ${localStorage.getItem("access_token")}`,
-    },
     data,
   });
 }
 
 export function UpdateRaffle(data: UpdateRaffleType, id: string | undefined) {
-  return axios({
+  return axiosInstance({
     method: "PATCH",
     url: `/raffle/${id}`,
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
-
-    headers: {
-      Authorization: `bearer ${localStorage.getItem("access_token")}`,
-    },
     data,
   });
 }
 
 export function DeleteRaffle(id: number) {
-  return axios({
+  return axiosInstance({
     method: "DELETE",
     url: `/raffle/${id}`,
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
-
-    headers: {
-      Authorization: `bearer ${localStorage.getItem("access_token")}`,
-    },
   });
 }
 
 export function GetRaffles() {
-  return axios({
+  return axiosInstance({
     method: "GET",
     url: "/raffle",
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
-
-    headers: {
-      Authorization: `bearer ${localStorage.getItem("access_token")}`,
-    },
   });
 }
 
@@ -69,6 +46,5 @@ export function GetRaffle(id: number) {
     method: "GET",
     url: `/raffle/${id}`,
     baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
   });
 }

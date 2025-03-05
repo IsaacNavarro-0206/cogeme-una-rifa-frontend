@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "./axiosConfig";
 
 interface ChoosenNumberData {
   numero: number;
@@ -22,29 +23,23 @@ export function ChoosenNumbers(data: ChoosenNumberData) {
 }
 
 export function UpdateStatusChoosenNumber(data: StatusData, id: number) {
-  return axios({
+  return axiosInstance({
     method: "PATCH",
     url: `/choosen-number/${id}`,
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
     data,
   });
 }
 
 export function GetChoosenNumbers() {
-  return axios({
+  return axiosInstance({
     method: "GET",
     url: "/choosen-number",
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
   });
 }
 
 export function GetChoosenNumber(id: number) {
-  return axios({
+  return axiosInstance({
     method: "GET",
     url: `/choosen-number/${id}`,
-    baseURL: import.meta.env.VITE_API_URL_LOCAL,
-    validateStatus: null,
   });
 }
