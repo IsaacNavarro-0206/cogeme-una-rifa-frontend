@@ -2,6 +2,7 @@ import PaginationControls from "@/components/PaginationControls";
 import RaffleCard from "@/components/RaffleCard";
 import { usePagination } from "@/hooks/usePagination";
 import { GetRaffles } from "@/service/raffle";
+import { getUserId } from "@/utils/auth";
 import { Loader2, Ticket } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,7 +22,11 @@ const MyRaffles = () => {
       try {
         setIsLoading(true);
 
-        const res = await GetRaffles();
+        console.log(getUserId());
+
+        const res = await GetRaffles(getUserId());
+
+        console.log(res);
 
         setRaffles(res.data);
       } catch (error) {

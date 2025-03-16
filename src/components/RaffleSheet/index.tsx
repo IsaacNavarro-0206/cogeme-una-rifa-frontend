@@ -45,7 +45,7 @@ const RaffleSheet = ({
 
   const getNumbers = async () => {
     try {
-      const res = await GetChoosenNumbers();
+      const res = await GetChoosenNumbers(raffleId);
 
       setNumbersStatus(res?.data);
     } catch (error) {

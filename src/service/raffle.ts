@@ -34,10 +34,10 @@ export function DeleteRaffle(id: number) {
   });
 }
 
-export function GetRaffles() {
+export function GetRaffles(id: string | undefined) {
   return axiosInstance({
     method: "GET",
-    url: "/raffle",
+    url: `/raffle/user/${id}`,
   });
 }
 
