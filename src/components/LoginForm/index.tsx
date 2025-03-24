@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Mail, Lock, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import FacebookGoogleButton from "../FacebookGoogleButton";
 import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -60,7 +59,6 @@ const LoginForm = () => {
           title: "¡Bienvenido!",
           description: "Has iniciado sesión correctamente",
         });
-
       } else {
         toast({
           title: "Error",
@@ -137,8 +135,6 @@ const LoginForm = () => {
         </form>
 
         <SeparatorForm text="O continuar con" />
-
-        <FacebookGoogleButton />
 
         <div className="text-center text-sm text-gray-600">
           ¿No tienes una cuenta?{" "}

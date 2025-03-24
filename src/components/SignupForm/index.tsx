@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Mail, Lock, User, Phone, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import FacebookGoogleButton from "../FacebookGoogleButton";
 import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -97,8 +96,6 @@ const SignupForm = () => {
       </CardHeader>
 
       <CardContent className="w-full space-y-1.5 md:space-y-5">
-        <FacebookGoogleButton />
-
         <SeparatorForm text="O REGÍSTRATE MANUALMENTE" />
 
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
