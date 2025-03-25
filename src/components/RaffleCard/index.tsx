@@ -84,7 +84,9 @@ const RaffleCard: React.FC<RaffleCardProps> = () => {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
 
-          <AlertDialogAction onClick={deleteRaffle}>Eliminar</AlertDialogAction>
+          <AlertDialogAction onClick={deleteRaffle} className="bg-destructive">
+            Eliminar
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -48,7 +48,9 @@ const ButtonDeleteProfile = () => {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
 
-          <AlertDialogAction>Eliminar</AlertDialogAction>
+          <AlertDialogAction className="bg-destructive">
+            Eliminar
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
