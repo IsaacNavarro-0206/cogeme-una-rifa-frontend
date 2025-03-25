@@ -1,49 +1,40 @@
 import { useToast } from "@/hooks/use-toast";
 import RaffleForm from "../RaffleForm";
-import { UpdateRaffle } from "@/service/raffle";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "@/helper";
+import { useRaffleStore } from "@/store/raffles/slice";
 
 const EditRaffleForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { id } = useParams();
 
+  const { updateRaffle, isLoading, error } = useRaffleStore();
+
   const onSubmit = async (data: RaffleDataForm) => {
-    console.log(data);
+    const obj = {
+      premio: data.prize,
+      loteria: data.lottery,
+      fechaCreacion: formatDate(new Date()),
+      fechaRifa: formatDate(data.drawDate),
+      numeroMaximo: data.maxNumber,
+    };
 
-    try {
-      setIsLoading(true);
+    updateRaffle(id, obj);
 
-      const obj = {
-        premio: data.prize,
-        loteria: data.lottery,
-        fechaCreacion: formatDate(new Date()),
-        fechaRifa: formatDate(data.drawDate),
-        numeroMaximo: data.maxNumber,
-      };
-
-      const res = await UpdateRaffle(obj, id);
-
+    if (!error) {
       toast({
         title: "¡Rifa actualizada!",
         description: "La rifa se ha actualizado correctamente",
       });
 
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-
+      navigate("/my-raffles");
+    } else {
       toast({
         title: "Error",
         description: "No se pudo actualizar la rifa",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
-      navigate("/my-raffles");
     }
   };
 

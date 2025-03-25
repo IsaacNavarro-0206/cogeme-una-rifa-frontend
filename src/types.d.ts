@@ -25,3 +25,13 @@ interface ChoosenNumber {
   estado: string;
   numero: number;
 }
+
+type CreateRaffleType = {
+  usuarioId: number;
+  premio: string;
+  fechaCreacion: string;
+  fechaRifa: string;
+  numeroMaximo: number;
+};
+
+type UpdateRaffleType = Omit<CreateRaffleType, "usuarioId">;

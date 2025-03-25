@@ -1,54 +1,41 @@
-import { useState } from "react";
 import RaffleForm from "../RaffleForm";
-import { CreateRaffle } from "@/service/raffle";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "@/helper";
 import { getUserId } from "@/utils/auth";
+import { useRaffleStore } from "@/store/raffles/slice";
 
 const CreateRaffleForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const { addRaffle, isLoading, error } = useRaffleStore();
+
   const onSubmit = async (data: RaffleDataForm) => {
-    console.log(data);
+    const obj = {
+      usuarioId: Number(getUserId()),
+      premio: data.prize,
+      loteria: data.lottery,
+      fechaCreacion: formatDate(new Date()),
+      fechaRifa: formatDate(data.drawDate),
+      numeroMaximo: data.maxNumber,
+    };
 
-    try {
-      setIsLoading(true);
+    addRaffle(obj);
 
-      const obj = {
-        usuarioId: Number(getUserId()),
-        premio: data.prize,
-        loteria: data.lottery,
-        fechaCreacion: formatDate(new Date()),
-        fechaRifa: formatDate(data.drawDate),
-        numeroMaximo: data.maxNumber,
-      };
-
-      console.log("Request object:", obj);
-      console.log("Creation date type:", typeof obj.fechaCreacion);
-      console.log("Draw date type:", typeof obj.fechaRifa);
-
-      const res = await CreateRaffle(obj);
-
+    if (!error) {
       toast({
         title: "¡Rifa creada!",
         description: "La rifa se ha creado correctamente",
       });
 
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-
+      navigate("/my-raffles");
+    } else {
       toast({
         title: "Error",
         description: "No se pudo crear la rifa",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
-      navigate("/my-raffles");
     }
   };
 

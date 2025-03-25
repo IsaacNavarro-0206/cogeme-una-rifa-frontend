@@ -1,15 +1,14 @@
 import PaginationControls from "@/components/PaginationControls";
 import RaffleCard from "@/components/RaffleCard";
 import { usePagination } from "@/hooks/usePagination";
-import { GetRaffles } from "@/service/raffle";
+import { useRaffleStore } from "@/store/raffles/slice";
 import { getUserId } from "@/utils/auth";
 import { Loader2, Ticket } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const MyRaffles = () => {
-  const [raffles, setRaffles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { raffles, fetchRaffles, isLoading } = useRaffleStore();
 
   const { currentItems, currentPage, totalPages, nextPage, prevPage } =
     usePagination({
@@ -18,26 +17,8 @@ const MyRaffles = () => {
     });
 
   useEffect(() => {
-    const getRaffles = async () => {
-      try {
-        setIsLoading(true);
-
-        console.log(getUserId());
-
-        const res = await GetRaffles(getUserId());
-
-        console.log(res);
-
-        setRaffles(res.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getRaffles();
-  }, []);
+    fetchRaffles(getUserId());
+  }, [fetchRaffles]);
 
   return (
     <div className="mb-5 max-w-5xl w-11/12">

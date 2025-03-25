@@ -1,16 +1,6 @@
 import axios from "axios";
 import { axiosInstance } from "./axiosConfig";
 
-type CreateRaffleType = {
-  usuarioId: number;
-  premio: string;
-  fechaCreacion: string;
-  fechaRifa: string;
-  numeroMaximo: number;
-};
-
-type UpdateRaffleType = Omit<CreateRaffleType, "usuarioId">;
-
 export function CreateRaffle(data: CreateRaffleType) {
   return axiosInstance({
     method: "POST",

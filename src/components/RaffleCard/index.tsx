@@ -22,44 +22,34 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { DeleteRaffle } from "@/service/raffle";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUserId } from "@/utils/auth";
+import { useRaffleStore } from "@/store/raffles/slice";
 
 interface RaffleCardProps {
   raffles: Raffle[];
 }
 
-const RaffleCard: React.FC<RaffleCardProps> = ({
-  raffles,
-}: RaffleCardProps) => {
+const RaffleCard: React.FC<RaffleCardProps> = () => {
   const { toast } = useToast();
   const [raffleToDelete, setRaffleToDelete] = useState<number>(0);
-  const [raffleList, setRaffleList] = useState<Raffle[]>([]);
   const { pathname } = useLocation();
 
-  useEffect(() => {
-    setRaffleList(raffles);
-  }, [raffles]);
+  const { error, deleteRaffleZ, raffles, setRaffles } = useRaffleStore();
 
   const deleteRaffle = async () => {
     // Store current state for potential rollback
     const previousRaffles = [...raffles];
 
-    try {
-      await DeleteRaffle(raffleToDelete);
+    deleteRaffleZ(raffleToDelete);
 
+    if (!error) {
       toast({
         title: "Éxito",
         description: "Rifa eliminada correctamente",
       });
-
-      setRaffleList(raffles.filter((raffle) => raffle.id !== raffleToDelete));
-    } catch (error) {
-      console.log(error);
-
-      // Rollback on error
-      setRaffleList(previousRaffles);
+    } else {
+      setRaffles(previousRaffles);
 
       toast({
         title: "Error",
@@ -125,7 +115,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
       });
   };
 
-  return raffleList.length === 0 ? (
+  return raffles.length === 0 ? (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
       <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <Ticket className="w-8 h-8 text-pink-600" />
@@ -149,7 +139,7 @@ const RaffleCard: React.FC<RaffleCardProps> = ({
     </div>
   ) : (
     <div className="space-y-4">
-      {raffleList.map((raffle) => (
+      {raffles.map((raffle) => (
         <div
           key={raffle.id}
           className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 transition-all hover:shadow-md"
