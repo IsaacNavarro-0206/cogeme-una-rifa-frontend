@@ -29,3 +29,14 @@ export function Signup(data: SignupTypes) {
     data,
   });
 }
+
+export function RefreshToken(refreshToken: string | null) {
+  return axios({
+    method: "POST",
+    url: "/auth/refresh",
+    baseURL: import.meta.env.VITE_API_URL_LOCAL,
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+  });
+}

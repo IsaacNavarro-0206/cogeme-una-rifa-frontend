@@ -53,7 +53,8 @@ const LoginForm = () => {
       console.log(res);
 
       if (res.status === 201) {
-        setAuth(res.data.access_token);
+        const { access_token, refresh_token } = res.data;
+        setAuth(access_token, refresh_token);
 
         toast({
           title: "¡Bienvenido!",
