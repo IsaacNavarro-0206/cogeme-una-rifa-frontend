@@ -7,7 +7,5 @@ export const getUserId = () => {
 
   const decoded = jwtDecode(token);
 
-  console.log(decoded);
-
   return decoded.sub;
 };

@@ -16,7 +16,7 @@ const EditRaffleForm = () => {
       premio: data.prize,
       loteria: data.lottery,
       fechaCreacion: formatDate(new Date()),
-      fechaRifa: formatDate(data.drawDate),
+      fechaRifa: data.drawDate,
       numeroMaximo: data.maxNumber,
     };
 
