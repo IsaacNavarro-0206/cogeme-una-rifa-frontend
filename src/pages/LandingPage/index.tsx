@@ -10,7 +10,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-orange-400 via-purple-500 to-purple-700 flex flex-col justify-center items-center p-4 space-y-16">
       <h1 className="text-white text-4xl md:text-6xl font-bold">
-        Cógeme una rifa
+        Cógeme un número
       </h1>
 
       <p className="text-white/90 text-xl md:text-2xl text-center">
