@@ -54,7 +54,7 @@ const NavBar = () => {
     <nav className="bg-white shadow-sm z-50 w-full">
       <div className="flex justify-between items-center h-16">
         <div className="">
-          <Link to="/">
+          <Link to="/my-raffles">
             <img
               src={Logo}
               className="h-20 w-32"
