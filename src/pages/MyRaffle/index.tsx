@@ -1,24 +1,12 @@
+import AcceptedNumberCard from "@/components/AcceptedNumberCard";
 import RaffleInfoCard from "@/components/RaffleInfoCard";
 import RequestCard from "@/components/RequestCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GetChoosenNumbers } from "@/service/choosenNumber";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const MyRaffle = () => {
-  const [requests, setRequests] = useState<RequestNumber[]>([]);
-  const { id } = useParams();
-
-  useEffect(() => {
-    const getRequests = async () => {
-      const res = await GetChoosenNumbers(id);
-
-      if (res.status === 200) {
-        setRequests(res.data);
-      }
-    };
-
-    getRequests();
-  }, []);
 
   return (
     <>
@@ -26,7 +14,23 @@ const MyRaffle = () => {
 
       <RaffleInfoCard />
 
-      <RequestCard requests={requests} />
+      <br />
+
+      <Tabs defaultValue="pending" className="max-w-2xl flex flex-col w-11/12">
+        <TabsList className="grid w-full grid-cols-2 mb-4">
+          <TabsTrigger value="pending">Solicitudes Pendientes</TabsTrigger>
+
+          <TabsTrigger value="accepted">Números Aceptados</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="pending">
+          <RequestCard />
+        </TabsContent>
+
+        <TabsContent value="accepted">
+          <AcceptedNumberCard />
+        </TabsContent>
+      </Tabs>
     </>
   );
 };

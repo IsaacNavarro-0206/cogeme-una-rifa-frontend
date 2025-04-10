@@ -30,10 +30,10 @@ export function UpdateStatusChoosenNumber(data: StatusData, id: number) {
   });
 }
 
-export function GetChoosenNumbers(is: string | undefined) {
+export function GetChoosenNumbers(id: string | undefined) {
   return axiosInstance({
     method: "GET",
-    url: `/choosen-number/raffle/${is}`,
+    url: `/choosen-number/raffle/${id}`,
   });
 }
 

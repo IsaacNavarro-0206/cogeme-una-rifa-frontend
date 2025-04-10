@@ -1,38 +1,78 @@
-import { Hash } from "lucide-react";
+/**
+ * Componente que muestra y gestiona las solicitudes pendientes de números para una rifa
+ * 
+ * Características:
+ * - Carga automática de solicitudes pendientes
+ * - Paginación de resultados
+ * - Manejo de estados de aceptación/rechazo
+ * - Interfaz de usuario para estados vacíos
+ */
+
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { usePagination } from "@/hooks/usePagination";
 import PaginationControls from "../PaginationControls";
-import { UpdateStatusChoosenNumber } from "@/service/choosenNumber";
+import {
+  GetChoosenNumbers,
+  UpdateStatusChoosenNumber,
+} from "@/service/choosenNumber";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useCallback, useEffect } from "react";
 import RequestItem from "../RequestItem";
+import EmptyState from "../EmptyState";
+import { useParams } from "react-router-dom";
 
-const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
-  const [filteredRequests, setFilteredRequests] = useState<RequestNumber[]>([]);
+const RequestCard = () => {
+  // Estado para almacenar las solicitudes pendientes
+  const [requests, setRequests] = useState<RequestNumber[]>([]);
+
   const { toast } = useToast();
 
-  // Sincronizar el estado de filteredRequests con requests al cambiar requests
-  useEffect(() => {
-    const filteredRequestsByStatus = requests.filter(
-      (request) => request.estado === "pendiente"
-    );
+  const { id } = useParams();
 
-    setFilteredRequests(filteredRequestsByStatus);
-  }, [requests]);
+  /**
+   * Efecto para cargar las solicitudes pendientes cuando el componente se monta
+   * o cuando cambia el ID de la rifa
+   */
+  useEffect(() => {
+    const getChoosenNumbers = async () => {
+      try {
+        const { data } = await GetChoosenNumbers(id);
+
+        const filteredNumbersByStatusPending = data.filter(
+          (requestedNumber: RequestNumber) =>
+            requestedNumber.estado === "pendiente"
+        );
+
+        setRequests(filteredNumbersByStatusPending);
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "Error",
+          description: "Hubo un problema al obtener los números solicitados.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    getChoosenNumbers();
+  }, [id, toast]);
 
   const { currentItems, currentPage, totalPages, nextPage, prevPage } =
     usePagination({
-      data: filteredRequests,
+      data: requests,
       itemsPerPage: 5,
     });
 
+  /**
+   * Maneja la aceptación o rechazo de una solicitud de número
+   * @param id - ID de la solicitud
+   * @param status - Nuevo estado ('aceptado' o 'rechazado')
+   */
   const handleRejectOrAcceptNumber = useCallback(
     async (id: number, status: string) => {
       try {
         await UpdateStatusChoosenNumber({ estado: status }, id);
-        setFilteredRequests((prev) =>
-          prev.filter((request) => request.id !== id)
-        );
+        setRequests((prev) => prev.filter((request) => request.id !== id));
 
         toast({
           title: `Solicitud ${
@@ -54,24 +94,8 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
     [toast]
   );
 
-  const EmptyState = () => (
-    <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-        <Hash className="w-6 h-6 text-gray-400" />
-      </div>
-
-      <h3 className="text-lg font-medium text-gray-900">
-        No hay solicitudes pendientes
-      </h3>
-
-      <p className="mt-2 text-sm text-gray-500">
-        Las nuevas solicitudes aparecerán aquí
-      </p>
-    </div>
-  );
-
   return (
-    <Card className="my-5 max-w-2xl w-11/12 pb-2.5">
+    <Card className="my-5 w-full pb-2.5">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           Solicitudes de números
@@ -88,7 +112,10 @@ const RequestCard = ({ requests }: { requests: RequestNumber[] }) => {
             />
           ))
         ) : (
-          <EmptyState />
+          <EmptyState
+            title="No hay solicitudes pendientes"
+            text="Las nuevas solicitudes aparecerán aquí"
+          />
         )}
       </CardContent>
 
