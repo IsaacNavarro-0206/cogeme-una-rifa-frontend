@@ -30,11 +30,6 @@ const AcceptedNumberItem = ({
           bgColor="bg-pink-100"
         />
       </div>
-
-      <div className="flex flex-col justify-center items-center sm:border-l sm:pl-6 gap-2">
-        <h6 className="text-sm text-gray-500">Fecha de aceptación</h6>
-        <span className="font-semibold text-gray-900">Hola</span>
-      </div>
     </div>
   );
 };
