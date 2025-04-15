@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Mail, Lock, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -134,8 +133,6 @@ const LoginForm = () => {
             )}
           </Button>
         </form>
-
-        <SeparatorForm text="O continuar con" />
 
         <div className="text-center text-sm text-gray-600">
           ¿No tienes una cuenta?{" "}

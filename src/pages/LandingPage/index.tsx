@@ -49,15 +49,15 @@ const LandingPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex gap-4 flex-col sm:flex-row justify-center w-full">
+      <div className="flex gap-4 flex-col sm:flex-row justify-center items-center w-full">
         <Link to="/login">
-          <Button className="bg-white text-purple-700 hover:bg-purple-50 font-medium rounded-md p-2 sm:w-full md:w-40">
+          <Button className="bg-white text-purple-700 hover:bg-purple-50 font-medium rounded-md p-2 w-40">
             Ingresar
           </Button>
         </Link>
 
         <Link to="/signup">
-          <Button className="bg-purple-500 text-white hover:bg-purple-700 font-medium rounded-md p-2 sm:w-full md:w-40">
+          <Button className="bg-purple-500 text-white hover:bg-purple-700 font-medium rounded-md p-2 w-40">
             Crear cuenta
           </Button>
         </Link>

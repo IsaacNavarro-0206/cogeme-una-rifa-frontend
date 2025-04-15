@@ -159,7 +159,7 @@ const RaffleSheet = ({
                   errors?.name && "border-red-500 focus-visible:ring-0"
                 } pl-9`}
                 id="name"
-                placeholder="Juan Pérez"
+                placeholder="Joe Doe"
                 {...register("name")}
               />
             </div>

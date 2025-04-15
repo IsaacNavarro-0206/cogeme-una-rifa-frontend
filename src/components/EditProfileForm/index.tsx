@@ -135,7 +135,7 @@ const EditProfileForm = () => {
                   } pl-9`}
                   id="name"
                   disabled={!isEnableInputs}
-                  placeholder="Juan Pérez"
+                  placeholder="Joe Doe"
                   {...register("name")}
                 />
               </div>

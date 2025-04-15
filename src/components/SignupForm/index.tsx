@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Mail, Lock, User, Phone, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import SeparatorForm from "../SeparatorForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -96,8 +95,6 @@ const SignupForm = () => {
       </CardHeader>
 
       <CardContent className="w-full space-y-1.5 md:space-y-5">
-        <SeparatorForm text="O REGÍSTRATE MANUALMENTE" />
-
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-6 gap-3">
             {/* Campo nombre */}
@@ -112,7 +109,7 @@ const SignupForm = () => {
                     errors?.name && "border-red-500 focus-visible:ring-0"
                   } pl-9`}
                   id="name"
-                  placeholder="Juan Pérez"
+                  placeholder="Joe Doe"
                   {...register("name")}
                 />
               </div>
