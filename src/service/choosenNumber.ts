@@ -31,9 +31,11 @@ export function UpdateStatusChoosenNumber(data: StatusData, id: number) {
 }
 
 export function GetChoosenNumbers(id: string | undefined) {
-  return axiosInstance({
+  return axios({
     method: "GET",
     url: `/choosen-number/raffle/${id}`,
+    baseURL: import.meta.env.VITE_API_URL_LOCAL,
+    validateStatus: null,
   });
 }
 
