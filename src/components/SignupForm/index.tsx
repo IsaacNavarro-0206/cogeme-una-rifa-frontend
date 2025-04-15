@@ -186,7 +186,7 @@ const SignupForm = () => {
                     errors?.phone && "border-red-500 focus-visible:ring-0"
                   } pl-9`}
                   id="phone"
-                  placeholder="300 675 3463"
+                  placeholder="3xx xxx xxxx"
                   {...register("phone")}
                 />
               </div>

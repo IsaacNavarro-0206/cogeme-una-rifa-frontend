@@ -183,7 +183,7 @@ const EditProfileForm = () => {
                   } pl-9`}
                   id="phone"
                   disabled={!isEnableInputs}
-                  placeholder="300 675 3463"
+                  placeholder="3xx xxx xxxx"
                   {...register("phone")}
                 />
               </div>
