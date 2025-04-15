@@ -43,7 +43,7 @@ const ChooseNumber = () => {
 
       <br />
 
-      <RaffleSheet maxNumber={raffle?.numeroMaximo} raffleId={raffleId} />
+      <RaffleSheet maxNumber={raffle?.numeroMaximo ?? 0} raffleId={raffleId} />
     </>
   );
 };

@@ -2,12 +2,8 @@ import AcceptedNumberCard from "@/components/AcceptedNumberCard";
 import RaffleInfoCard from "@/components/RaffleInfoCard";
 import RequestCard from "@/components/RequestCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GetChoosenNumbers } from "@/service/choosenNumber";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 const MyRaffle = () => {
-
   return (
     <>
       <br />

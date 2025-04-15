@@ -48,7 +48,7 @@ const EditProfileForm = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<EditProfileDataForm>({
     resolver: yupResolver<EditProfileDataForm>(schema),
     mode: "onChange",
   });
@@ -56,13 +56,14 @@ const EditProfileForm = () => {
   useEffect(() => {
     async function getUserInfo(id: string) {
       try {
-        const res = await GetUser(id);
+        const res = await GetUser(Number(id)); // Convert id to number
 
         const data = res?.data;
-
-        setValue("name", data.nombre);
-        setValue("email", data.correoElectronico);
-        setValue("phone", data.telefono);
+        if (data) {
+          setValue("name", data.nombre);
+          setValue("email", data.correoElectronico);
+          setValue("phone", data.telefono);
+        }
       } catch (error) {
         console.log(error);
       }
