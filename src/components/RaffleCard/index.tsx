@@ -1,5 +1,6 @@
 import {
   CalendarDays,
+  CircleDollarSign,
   Edit2,
   Eye,
   Gift,
@@ -178,6 +179,17 @@ const RaffleCard: React.FC<RaffleCardProps> = () => {
                 <div>
                   <p className="text-sm text-gray-500">
                     Premio: {raffle.premio}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="w-5 h-5 mt-1 mr-2 text-gray-400">
+                  <CircleDollarSign className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">
+                    Precio por número: {raffle.precioNumero}
                   </p>
                 </div>
               </div>

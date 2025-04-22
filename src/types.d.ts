@@ -3,6 +3,7 @@ interface RaffleDataForm {
   prize: string;
   maxNumber: number;
   drawDate: string;
+  precioNumero: number;
 }
 
 interface Raffle {
@@ -11,6 +12,7 @@ interface Raffle {
   fechaRifa: string;
   loteria: string;
   premio: string;
+  precioNumero: number;
 }
 
 interface RequestNumber {
@@ -29,9 +31,9 @@ interface ChoosenNumber {
 type CreateRaffleType = {
   usuarioId: number;
   premio: string;
-  fechaCreacion: string;
   fechaRifa: string;
   numeroMaximo: number;
+  precioNumero: number;
 };
 
 type UpdateRaffleType = Omit<CreateRaffleType, "usuarioId">;

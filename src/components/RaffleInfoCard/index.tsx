@@ -1,4 +1,4 @@
-import { Calendar, Gift, Ticket, User } from "lucide-react";
+import { Calendar, CircleDollarSign, Gift, Ticket, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useLocation } from "react-router-dom";
 
@@ -56,6 +56,14 @@ const RaffleInfoCard: React.FC<RaffleInfoCardProps> = ({
 
             <span className="text-sm">
               <strong>Premio:</strong> {raffle?.premio}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-600">
+            <CircleDollarSign className="w-5 h-5" />
+
+            <span className="text-sm">
+              <strong>Precio por número:</strong> {raffle?.precioNumero}
             </span>
           </div>
         </CardContent>

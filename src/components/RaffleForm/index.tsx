@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Gift, Calendar, Hash, Loader2, Ticket } from "lucide-react";
+import {
+  Gift,
+  Calendar,
+  Hash,
+  Loader2,
+  Ticket,
+  CircleDollarSign,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -19,6 +26,11 @@ const schema = yup.object().shape({
     .integer("Debe ser un número entero")
     .required("Número máximo es requerido"),
   drawDate: yup.string().required("Fecha de juego es requerida"),
+  precioNumero: yup
+    .number()
+    .typeError("Debe ser un número")
+    .positive("Debe ser un número positivo")
+    .required("Precio del número es requerido"),
 });
 
 interface RaffleFormProps {
@@ -56,6 +68,7 @@ const RaffleForm: React.FC<RaffleFormProps> = ({
     setValue("lottery", state?.raffle.loteria);
     setValue("drawDate", state?.raffle.fechaRifa);
     setValue("maxNumber", state?.raffle.numeroMaximo);
+    setValue("precioNumero", state?.raffle.precioNumero);
   }, [state?.raffle, setValue, isEditMode]);
 
   return (
@@ -107,6 +120,31 @@ const RaffleForm: React.FC<RaffleFormProps> = ({
 
             {errors.prize && (
               <p className="text-red-500 text-sm">{errors.prize.message}</p>
+            )}
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="precioNumero">Precio del Número</Label>
+
+            <div className="relative">
+              <CircleDollarSign className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+
+              <Input
+                id="precioNumero"
+                type="number"
+                step="0.01" // Permite decimales
+                {...register("precioNumero")}
+                className={`${
+                  errors?.precioNumero && "border-red-500 focus-visible:ring-0"
+                }
+                  pl-9`}
+              />
+            </div>
+
+            {errors.precioNumero && (
+              <p className="text-red-500 text-sm">
+                {errors.precioNumero.message}
+              </p>
             )}
           </div>
 

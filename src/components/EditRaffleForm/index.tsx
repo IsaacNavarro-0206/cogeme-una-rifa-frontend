@@ -1,7 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import RaffleForm from "../RaffleForm";
 import { useNavigate, useParams } from "react-router-dom";
-import { formatDate } from "@/helper";
 import { useRaffleStore } from "@/store/raffles/slice";
 
 const EditRaffleForm = () => {
@@ -15,9 +14,9 @@ const EditRaffleForm = () => {
     const obj = {
       premio: data.prize,
       loteria: data.lottery,
-      fechaCreacion: formatDate(new Date()),
       fechaRifa: data.drawDate,
       numeroMaximo: data.maxNumber,
+      precioNumero: data.precioNumero,
     };
 
     updateRaffle(id, obj);
