@@ -22,11 +22,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <LoginPage />,
+        element: (
+          <ProtectedRoute>
+            <LoginPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "signup",
-        element: <SignupPage />,
+        element: (
+          <ProtectedRoute>
+            <SignupPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "choose-number/:raffleId/:userId",
